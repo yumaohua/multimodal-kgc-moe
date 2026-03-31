@@ -1,0 +1,305 @@
+(fushiproject1) PS D:\fushi\project\project1\project> & D:/anaconda/envs/fushiproject1/python.exe d:/fushi/project/project1/project/train.py
+epochs:2000
+eval_freq:100
+decoder_save_model:./checkpoint/DB15K/trained_model.pth
+dim:256
+r_dim:256
+layer_nums:4
+batch_size:1024
+save:1
+n_exp:3
+mu:0.0001
+img_dim:256
+txt_dim:256
+lr:0.0005
+dropout_gat:0.3
+dropout:0.3
+cuda:0
+weight_decay_gat:1e-05
+weight_decay:0
+seed:10010
+model:RMoE
+num_layers:3
+k_w:16
+k_h:16
+n_heads:2
+dataset:DB15K
+encoder:0
+image_features:1
+text_features:1
+patience:5
+lr_reduce_freq:500
+gamma:1.0
+bias:1
+neg_num:2
+neg_num_gat:2
+alpha:0.2
+alpha_gat:0.2
+out_channels:32
+kernel_size:3
+Using: cuda:0
+Training data 79222
+Multi_MoE(
+  (entity_embeddings): Embedding(12842, 256)
+  (relation_embeddings): Embedding(558, 256)
+  (img_entity_embeddings): Embedding(12842, 256)
+  (img_relation_embeddings): Embedding(558, 256)
+  (txt_entity_embeddings): Embedding(12842, 256)
+  (txt_relation_embeddings): Embedding(558, 256)
+  (visual_moe): MoEAdaptorLayer(
+    (experts): ModuleList(
+      (0-2): 3 x PWLayer(
+        (dropout): Dropout(p=0.0, inplace=False)
+        (lin): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (norm): RMSNorm()
+  )
+  (text_moe): MoEAdaptorLayer(
+    (experts): ModuleList(
+      (0-2): 3 x PWLayer(
+        (dropout): Dropout(p=0.0, inplace=False)
+        (lin): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (norm): RMSNorm()
+  )
+  (structure_moe): MoEAdaptorLayer(
+    (experts): ModuleList(
+      (0-2): 3 x PWLayer(
+        (dropout): Dropout(p=0.0, inplace=False)
+        (lin): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (norm): RMSNorm()
+  )
+  (mm_moe): MoEAdaptorLayer(
+    (experts): ModuleList(
+      (0-2): 3 x PWLayer(
+        (dropout): Dropout(p=0.0, inplace=False)
+        (lin): Linear(in_features=256, out_features=256, bias=True)
+      )
+    )
+    (norm): RMSNorm()
+  )
+  (fuse_e): ModalFusionLayer(
+    (modal1_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (modal2_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (modal3_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (ent_attn): Linear(in_features=256, out_features=1, bias=False)
+    (final_norm): RMSNorm()
+  )
+  (fuse_r): ModalFusionLayer(
+    (modal1_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (modal2_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (modal3_layers): ModuleList(
+      (0-1): 2 x Sequential(
+        (0): Dropout(p=0.2, inplace=False)
+        (1): Linear(in_features=256, out_features=256, bias=True)
+        (2): ReLU()
+      )
+    )
+    (ent_attn): Linear(in_features=256, out_features=1, bias=False)
+    (final_norm): RMSNorm()
+  )
+  (bceloss): BCELoss()
+)
+Total number of parameters: 11889194
+  5%|███▌                                                                   | 99/2000 [11:45<3:40:43,  6.97s/it]Epoch数量 0100 , 平均损失 0.7182
+
+  5%|██▌                                                  | 99/2000 [11:53<3:40:43,  6.97s/it, loss=main: 53.15]==================================第 1 次评估========================================
+d:\fushi\project\project1\project\utils\data_loader.py:187: UserWarning: where received a uint8 condition tensor. This behavior is deprecated and will be removed in a future version of PyTorch. Use a boolean condition instead. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\TensorCompare.cpp:612.)
+  pred = torch.where(y.byte(), torch.zeros_like(pred), pred) #[1024,all]
+Epoch: 0100
+test_Hits@100: 0.3899 test_Hits@10: 0.2126 test_Hits@3: 0.1366 test_Hits@1: 0.0848 test_MR: 1246.5975 test_MRR: 0.1272
+
+
+
+ 10%|█████▏                                              | 199/2000 [23:41<3:28:27,  6.94s/it, loss=main: 53.15]Epoch数量 0200 , 平均损失 0.7177
+
+ 10%|█████                                              | 199/2000 [23:48<3:28:27,  6.94s/it, loss=main: 53.107]==================================第 2 次评估========================================
+Epoch: 0200
+test_Hits@100: 0.4399 test_Hits@10: 0.2365 test_Hits@3: 0.1510 test_Hits@1: 0.0924 test_MR: 984.8756 test_MRR: 0.1404
+
+
+
+ 15%|███████▌                                           | 299/2000 [34:54<3:03:07,  6.46s/it, loss=main: 53.107]Epoch数量 0300 , 平均损失 0.7168
+
+ 15%|███████▌                                           | 299/2000 [35:00<3:03:07,  6.46s/it, loss=main: 53.044]==================================第 3 次评估========================================
+Epoch: 0300
+test_Hits@100: 0.5879 test_Hits@10: 0.3714 test_Hits@3: 0.2569 test_Hits@1: 0.1703 test_MR: 1085.9005 test_MRR: 0.2363
+
+
+
+ 20%|██████████▏                                        | 399/2000 [46:10<2:55:34,  6.58s/it, loss=main: 53.044]Epoch数量 0400 , 平均损失 0.7162
+
+ 20%|██████████▏                                        | 399/2000 [46:16<2:55:34,  6.58s/it, loss=main: 52.997]==================================第 4 次评估========================================
+Epoch: 0400
+test_Hits@100: 0.6222 test_Hits@10: 0.4497 test_Hits@3: 0.3476 test_Hits@1: 0.2529 test_MR: 1335.9150 test_MRR: 0.3201
+
+
+
+ 25%|████████████▋                                      | 499/2000 [57:22<2:43:23,  6.53s/it, loss=main: 52.997]Epoch数量 0500 , 平均损失 0.7160
+
+ 25%|████████████▋                                      | 499/2000 [57:28<2:43:23,  6.53s/it, loss=main: 52.985]==================================第 5 次评估========================================
+Epoch: 0500
+test_Hits@100: 0.6239 test_Hits@10: 0.4708 test_Hits@3: 0.3771 test_Hits@1: 0.2788 test_MR: 1345.7603 test_MRR: 0.3448
+
+
+
+ 30%|██████████████▋                                  | 599/2000 [1:09:18<2:35:33,  6.66s/it, loss=main: 52.985]Epoch数量 0600 , 平均损失 0.7160
+
+ 30%|██████████████▋                                  | 599/2000 [1:09:24<2:35:33,  6.66s/it, loss=main: 52.981]==================================第 6 次评估========================================
+Epoch: 0600
+test_Hits@100: 0.6293 test_Hits@10: 0.4795 test_Hits@3: 0.3846 test_Hits@1: 0.2832 test_MR: 1312.3381 test_MRR: 0.3511
+
+
+
+ 35%|█████████████████▏                               | 699/2000 [1:20:46<2:22:46,  6.58s/it, loss=main: 52.981]Epoch数量 0700 , 平均损失 0.7159
+
+ 35%|█████████████████▏                               | 699/2000 [1:20:53<2:22:46,  6.58s/it, loss=main: 52.979]==================================第 7 次评估========================================
+Epoch: 0700
+test_Hits@100: 0.6365 test_Hits@10: 0.4849 test_Hits@3: 0.3882 test_Hits@1: 0.2833 test_MR: 1285.6209 test_MRR: 0.3531
+
+
+
+ 40%|███████████████████▌                             | 799/2000 [1:32:24<2:22:53,  7.14s/it, loss=main: 52.979]Epoch数量 0800 , 平均损失 0.7159
+
+ 40%|███████████████████▌                             | 799/2000 [1:32:31<2:22:53,  7.14s/it, loss=main: 52.978]==================================第 8 次评估========================================
+Epoch: 0800
+test_Hits@100: 0.6391 test_Hits@10: 0.4897 test_Hits@3: 0.3905 test_Hits@1: 0.2836 test_MR: 1268.7913 test_MRR: 0.3545
+
+
+
+ 45%|██████████████████████                           | 899/2000 [1:44:28<2:12:30,  7.22s/it, loss=main: 52.978]Epoch数量 0900 , 平均损失 0.7159
+
+ 45%|██████████████████████                           | 899/2000 [1:44:36<2:12:30,  7.22s/it, loss=main: 52.977]==================================第 9 次评估========================================
+Epoch: 0900
+test_Hits@100: 0.6406 test_Hits@10: 0.4924 test_Hits@3: 0.3902 test_Hits@1: 0.2837 test_MR: 1253.3867 test_MRR: 0.3550
+
+
+
+ 50%|████████████████████████▍                        | 999/2000 [1:56:33<2:02:25,  7.34s/it, loss=main: 52.977]Epoch数量 1000 , 平均损失 0.7159
+
+ 50%|████████████████████████▍                        | 999/2000 [1:56:40<2:02:25,  7.34s/it, loss=main: 52.977]==================================第 10 次评估========================================
+Epoch: 1000
+test_Hits@100: 0.6441 test_Hits@10: 0.4928 test_Hits@3: 0.3899 test_Hits@1: 0.2829 test_MR: 1243.7171 test_MRR: 0.3546
+
+
+
+ 55%|██████████████████████████▍                     | 1099/2000 [2:08:24<1:42:40,  6.84s/it, loss=main: 52.977]Epoch数量 1100 , 平均损失 0.7159
+
+ 55%|██████████████████████████▍                     | 1099/2000 [2:08:31<1:42:40,  6.84s/it, loss=main: 52.976]==================================第 11 次评估========================================
+Epoch: 1100
+test_Hits@100: 0.6431 test_Hits@10: 0.4942 test_Hits@3: 0.3919 test_Hits@1: 0.2810 test_MR: 1235.6110 test_MRR: 0.3541
+
+
+
+ 60%|████████████████████████████▊                   | 1199/2000 [2:20:06<1:27:48,  6.58s/it, loss=main: 52.976]Epoch数量 1200 , 平均损失 0.7159
+
+ 60%|████████████████████████████▊                   | 1199/2000 [2:20:12<1:27:48,  6.58s/it, loss=main: 52.976]==================================第 12 次评估========================================
+Epoch: 1200
+test_Hits@100: 0.6428 test_Hits@10: 0.4934 test_Hits@3: 0.3908 test_Hits@1: 0.2808 test_MR: 1233.6778 test_MRR: 0.3540
+
+
+
+ 65%|███████████████████████████████▏                | 1299/2000 [2:31:16<1:18:45,  6.74s/it, loss=main: 52.976]Epoch数量 1300 , 平均损失 0.7159
+
+ 65%|███████████████████████████████▏                | 1299/2000 [2:31:23<1:18:45,  6.74s/it, loss=main: 52.976]==================================第 13 次评估========================================
+Epoch: 1300
+test_Hits@100: 0.6429 test_Hits@10: 0.4933 test_Hits@3: 0.3912 test_Hits@1: 0.2796 test_MR: 1231.1553 test_MRR: 0.3535
+
+
+
+ 70%|█████████████████████████████████▌              | 1399/2000 [2:42:51<1:05:37,  6.55s/it, loss=main: 52.976]Epoch数量 1400 , 平均损失 0.7159
+
+ 70%|█████████████████████████████████▌              | 1399/2000 [2:42:58<1:05:37,  6.55s/it, loss=main: 52.976]==================================第 14 次评估========================================
+Epoch: 1400
+test_Hits@100: 0.6437 test_Hits@10: 0.4946 test_Hits@3: 0.3917 test_Hits@1: 0.2808 test_MR: 1230.7510 test_MRR: 0.3545
+
+
+
+ 75%|█████████████████████████████████████▍            | 1499/2000 [2:54:05<53:49,  6.45s/it, loss=main: 52.976]Epoch数量 1500 , 平均损失 0.7159
+
+ 75%|█████████████████████████████████████▍            | 1499/2000 [2:54:12<53:49,  6.45s/it, loss=main: 52.975]==================================第 15 次评估========================================
+Epoch: 1500
+test_Hits@100: 0.6442 test_Hits@10: 0.4956 test_Hits@3: 0.3922 test_Hits@1: 0.2790 test_MR: 1231.1727 test_MRR: 0.3538
+
+
+
+ 80%|███████████████████████████████████████▉          | 1599/2000 [3:05:12<43:04,  6.44s/it, loss=main: 52.975]Epoch数量 1600 , 平均损失 0.7159
+
+ 80%|███████████████████████████████████████▉          | 1599/2000 [3:05:18<43:04,  6.44s/it, loss=main: 52.975]==================================第 16 次评估========================================
+Epoch: 1600
+test_Hits@100: 0.6445 test_Hits@10: 0.4950 test_Hits@3: 0.3922 test_Hits@1: 0.2798 test_MR: 1232.8758 test_MRR: 0.3542
+
+
+
+ 85%|██████████████████████████████████████████▍       | 1699/2000 [3:16:22<32:26,  6.47s/it, loss=main: 52.975]Epoch数量 1700 , 平均损失 0.7159
+
+ 85%|██████████████████████████████████████████▍       | 1699/2000 [3:16:29<32:26,  6.47s/it, loss=main: 52.975]==================================第 17 次评估========================================
+Epoch: 1700
+test_Hits@100: 0.6440 test_Hits@10: 0.4953 test_Hits@3: 0.3927 test_Hits@1: 0.2796 test_MR: 1236.5753 test_MRR: 0.3543
+
+
+
+ 90%|████████████████████████████████████████████▉     | 1799/2000 [3:27:33<21:55,  6.55s/it, loss=main: 52.975]Epoch数量 1800 , 平均损失 0.7159
+
+ 90%|████████████████████████████████████████████▉     | 1799/2000 [3:27:40<21:55,  6.55s/it, loss=main: 52.975]==================================第 18 次评估========================================
+Epoch: 1800
+test_Hits@100: 0.6426 test_Hits@10: 0.4959 test_Hits@3: 0.3900 test_Hits@1: 0.2795 test_MR: 1238.5073 test_MRR: 0.3536
+
+
+
+ 95%|███████████████████████████████████████████████▍  | 1899/2000 [3:38:46<10:50,  6.44s/it, loss=main: 52.975]Epoch数量 1900 , 平均损失 0.7159
+
+ 95%|███████████████████████████████████████████████▍  | 1899/2000 [3:38:52<10:50,  6.44s/it, loss=main: 52.975]==================================第 19 次评估========================================
+Epoch: 1900
+test_Hits@100: 0.6432 test_Hits@10: 0.4964 test_Hits@3: 0.3915 test_Hits@1: 0.2798 test_MR: 1242.6664 test_MRR: 0.3540
+
+
+
+100%|█████████████████████████████████████████████████▉| 1999/2000 [3:50:17<00:06,  6.78s/it, loss=main: 52.975]Epoch数量 2000 , 平均损失 0.7159
+
+100%|█████████████████████████████████████████████████▉| 1999/2000 [3:50:24<00:06,  6.78s/it, loss=main: 52.975]==================================第 20 次评估========================================
+Epoch: 2000
+test_Hits@100: 0.6427 test_Hits@10: 0.4957 test_Hits@3: 0.3906 test_Hits@1: 0.2770 test_MR: 1243.3079 test_MRR: 0.3522
+
+
+
+100%|██████████████████████████████████████████████████| 2000/2000 [3:50:42<00:00,  6.92s/it, loss=main: 52.975] 
+Total time elapsed: 13842.9225s
+Val set results:
+val_Hits@100: -1.0000 val_Hits@10: -1.0000 val_Hits@3: -1.0000 val_Hits@1: -1.0000 val_MR: 100000.0000 val_MRR: -1.0000
+Test set results:
+test_Hits@100: 0.6445 test_Hits@10: 0.4964 test_Hits@3: 0.3927 test_Hits@1: 0.2837 test_MR: 984.8756 test_MRR: 0.3550
